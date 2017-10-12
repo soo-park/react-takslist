@@ -1,0 +1,50 @@
+/* bootstrap overwrite */
+body {
+  background-color: #eeeeee;
+}
+
+.container-fluid {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+a {
+  color:#aaa;
+}
+
+nav {
+  padding-top: 20px;
+}
+
+/* styles */
+#app {
+  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #4d4d4d;
+  margin: 0;
+}
+
+.header {
+  background-color: #223355;
+}
+
+.task-list {
+  max-width: 880px;
+}
+
+.task-card {
+  background-color: white;
+  margin: 1rem;
+  color: #aaa;
+}
+
+.left {
+  position: absolute;
+  left: 2em;
+  vertical-align: center;
+}
+
+.right {
+  position: absolute;
+  right: 2em;
+  vertical-align: center;
+}
