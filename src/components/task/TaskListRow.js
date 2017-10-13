@@ -3,17 +3,19 @@ import { Link } from 'react-router';
 
 const TaskListRow = ({task}) => {
   return (
-    <div className="jumbotron task-card">
-      <div> 
-        Task:
-        <Link to={'/task/' + task.id}>{task.title}</Link>
-        <i className="fa fa-trash-o"></i>
-      </div>
+    <div className="task-card">
+      <div className="card-space" />
       <div>
-        <div>Status: <a href={task.watchHref} target="_blank">Watch</a></div>
-        <div>Order: {task.orderId}</div>
+        <i className="fa fa-ellipsis-v"/>
+        <i className="fa fa-ellipsis-v"/>
+        <i className="fa fa-ellipsis-v"/>
+        <span className="left-padding">Task:</span>
+        <Link to={'/task/' + task.id}>{task.title}</Link>
+        <i className="fa fa-trash-o pull-right"></i>
+      </div>
+      <div className="card-space" />
+      <div className="card-body">
         <div>Category: {task.category}</div>
-        <div>Detail: {task.length}</div>
       </div>
     </div>
   );

@@ -1,4 +1,9 @@
 export default {
-  orders: [],
-  tasks: []
+  tasks: [
+    {
+    id: -1,
+    title: "No task found",
+    category: ""
+    }
+  ]
 };

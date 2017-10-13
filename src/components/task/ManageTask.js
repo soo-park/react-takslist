@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as taskActions from '../../actions/taskActions';
 import TaskForm from './TaskForm';
 
-class ManageTaskPage extends React.Component {
+class ManageTask extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -43,9 +43,7 @@ class ManageTaskPage extends React.Component {
   render() {
     return (
       <div>
-        <h1>Manage Task</h1>
         <TaskForm
-          allOrders={this.props.orders}
           task={this.state.task}
           errors={this.state.errors}
           onChange={this.updateTaskState}
@@ -56,30 +54,21 @@ class ManageTaskPage extends React.Component {
   }
 } 
 
-ManageTaskPage.propTypes = {
+ManageTask.propTypes = {
   task: PropTypes.object.isRequired,
-  orders: PropTypes.array.isRequired,
   actions: PropTypes.object.isRequired
 };
 
 // to avoid variable authentication error for context
-ManageTaskPage.contextTypes = {
+ManageTask.contextTypes = {
   router: PropTypes.object
 };
 
 function mapStateToProps(state, ownProps) {
-  let task = {id: '', wachHref: '', title: '', orderId: '', length: '', category: ''};
-
-  const ordersFormattedForDropdown = state.orders.map( order => {
-    return {
-      value: order.id,
-      text: order.firstName + '' + order.lastName
-    };
-  });
+  let task = {id: '', title: '', category: ''};
 
   return {
-    task: task,
-    orders: ordersFormattedForDropdown  
+    task: task
   };
 }
 
@@ -89,4 +78,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageTaskPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ManageTask);

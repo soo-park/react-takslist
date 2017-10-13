@@ -6,12 +6,10 @@ import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import routes from './routes';
 import { loadTasks } from './actions/taskActions';
-import { loadOrders } from  './actions/orderActions';
 import './styles/styles.css'; //webpack can import CSS files too!
 
 const store = cofigureStore();
 store.dispatch(loadTasks());
-store.dispatch(loadOrders());
 
 render(
   <Provider store={store}>

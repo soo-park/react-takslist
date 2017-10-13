@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import taskApi from '../api/mockTaskApi';
 
+
 // action creator for tasks
 export function loadTasksSuccess(tasks) {
   return { type: types.LOAD_TASKS_SUCCESS, tasks };
@@ -12,6 +13,10 @@ export function createTaskSuccess(task) {
 
 export function updateTaskSuccess(task) {
   return { type: types.UPDATE_TASK_SUCCESS, task };
+}
+
+export function deleteTaskSuccess(tasks) {
+  return { type: types.DELETE_TASK_SUCCESS, tasks }
 }
 
 // Tunk for loading tasks

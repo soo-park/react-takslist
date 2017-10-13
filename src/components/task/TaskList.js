@@ -3,7 +3,7 @@ import TaskListRow from './TaskListRow';
 
 const TaskList = ({tasks}) => {
   return (
-    <div className="task-list">
+    <div>
       {tasks.map(task => 
         <TaskListRow key={task.id} task={task} />
       )}

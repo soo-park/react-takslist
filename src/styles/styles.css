@@ -16,6 +16,10 @@ nav {
   padding-top: 20px;
 }
 
+.form-group {
+  margin: 0;
+}
+
 /* styles */
 #app {
   font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -28,23 +32,37 @@ nav {
 }
 
 .task-list {
-  max-width: 880px;
+  max-width: 800px;
+}
+
+.tasklist-top {
+  margin: auto;
+  padding: 3rem;
+  font-size: 2rem;
+  text-align: center;
 }
 
 .task-card {
   background-color: white;
+  padding: 2rem 3rem 2rem 3rem;
   margin: 1rem;
   color: #aaa;
+  border-radius: 0.5rem;
+  height: 15rem;
 }
 
-.left {
-  position: absolute;
-  left: 2em;
-  vertical-align: center;
+.card-space {
+  padding: 0.5rem;
 }
 
-.right {
-  position: absolute;
-  right: 2em;
-  vertical-align: center;
+.center-children {
+  margin: auto;  
+}
+
+.fa-ellipsis-v {
+  padding: 0.5px;
+}
+
+.left-padding {
+  padding: 0 0 0 1rem;
 }

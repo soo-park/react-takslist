@@ -22,19 +22,23 @@ rendirectToAddTaskPage() {
   render() {
     const {tasks} = this.props;
     return (
-      <div>
-        <h3>Tasks</h3>
-        <input
-          type="submit"
-          value="Add Task"
-          className="btn btn-secondary"
-          onClick={this.rendirectToAddTaskPage}/>
+      <div className="task-list center-children">
+        <div className="tasklist-top">
+          <span className="pull-left">Tasks</span>
+          <span className="pull-right">
+            <input
+              type="submit"
+              value="Add Task"
+              className="btn btn-secondary"
+              onClick={this.rendirectToAddTaskPage}/>
 
-          <input
-          type="submit"
-          value="Save"
-          className="btn btn-primary"
-          onClick={this.rendirectToAddTaskPage}/>
+              <input
+              type="submit"
+              value="Save"
+              className="btn btn-primary"
+              onClick={this.onSave}/>
+            </span>
+          </div>
         <TaskList tasks={tasks}/>
       </div>
     );
