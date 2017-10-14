@@ -57,10 +57,10 @@ export function updateTaskList(tasks) {
 }
 
 export function deleteTask(id) {
-  return function(dispatch) {
-    return taskApi.getAllTasks().then(tasks => {
-      // dispatchEvent(loadTasksSuccess(tasks));
-      dispatch(loadTasksSuccess(tasks));
+  return function (dispatch, getState) {
+    return taskApi.deleteTask(tasks).then(tasks => {
+      id ? dispatch(loadTaskSuccess(tasks)) :
+        dispatch(deleteTaskSuccess(tasks));
     }).catch(error => {
       throw(error);
     });
