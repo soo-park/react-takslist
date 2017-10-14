@@ -5,6 +5,7 @@ import * as taskActions from '../../actions/taskActions';
 import TaskList from './TaskList';
 import { browserHistory } from 'react-router';
 import TextInput from '../common/TextInput';
+import Sort from './Sort.js';
 
 class TasksPage extends Component {
   constructor(props, context) {
@@ -108,6 +109,7 @@ class TasksPage extends Component {
         </div>
         {display}
         <TaskList tasks={tasks} deleteTask={(id) => this.deleteTask(id)} />
+        <Sort tasks={tasks}/>
         {modal}
  
       </div>
