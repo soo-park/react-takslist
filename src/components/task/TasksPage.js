@@ -4,23 +4,90 @@ import { bindActionCreators } from 'redux'; // helper not to manually wrap funct
 import * as taskActions from '../../actions/taskActions';
 import TaskList from './TaskList';
 import { browserHistory } from 'react-router';
+import TextInput from '../common/TextInput';
 
 class TasksPage extends Component {
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      turnDisplayOn: false,
+      task: Object.assign({}, this.props.task),
+      errors: {},
+      addTaskButton: true,
+      saveButton: false,
+      isModalOpen: false
+    };
     this.rendirectToAddTaskPage = this.rendirectToAddTaskPage.bind(this);
+    this.toggleAddTaskDisplay = this.toggleAddTaskDisplay.bind(this);
+    this.updateTaskState = this.updateTaskState.bind(this);
+    this.saveTask = this.saveTask.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
   }
 
-taskRow(task, index) {
-  return <div key={index}>{task.title}</div>;
-}
+  taskRow(task, index) {
+    return <div key={index}>{task.title}</div>;
+  }
 
-rendirectToAddTaskPage() {
-  browserHistory.push('/task');
-}
+  rendirectToAddTaskPage() {
+    browserHistory.push('/task');
+  }
+
+  toggleAddTaskDisplay(event) {
+    event.preventDefault();
+    this.setState({turnDisplayOn: !this.state.turnDisplayOn});
+  }
+
+  // change handler for form field
+  updateTaskState(event) {
+    const field = event.target.name;
+    let task = this.state.task;
+    task[field] = event.target.value;
+    return this.setState({
+      task: task,
+      saveButton: true
+    });
+  }
+
+  saveTask(event) {
+    event.preventDefault();
+    this.props.actions.saveTask(this.state.task);
+    this.setState({
+      turnDisplayOn: false,
+      isModalOpen: true
+    });
+  }
+
+  deleteTask(event, id) {
+    event.preventDefault();
+    this.props.actions.deleteTask("board-001-item-1");
+  }
 
   render() {
     const {tasks} = this.props;
+    const onSave = this.props.actions.saveTask;
+    
+    const display = this.state.turnDisplayOn ?  
+      (<div className="task-card">
+        <div className="card-space" />
+        <TextInput name="title" placeholder="Title" value={this.state.task.title} onChange={this.updateTaskState} error={this.state.errors.title}/>
+        <TextInput name="category" placeholder="Category" value={this.state.task.category} onChange={this.updateTaskState} error={this.state.errors.category}/>
+        <input
+          type="submit"
+          value="Save"
+          className={this.state.saveButton? "btn btn-primary pointer-cursor pull-right" : "btn btn-secondary disabled pointer-cursor pull-right"}
+          onClick={this.saveTask}
+        />
+      </div>)
+    : null;
+
+    const modal = this.state.isModalOpen ?
+    (
+      <div>
+        <div>Moha</div>
+      </div>
+    )
+    : null;
+
     return (
       <div className="task-list center-children">
         <div className="tasklist-top">
@@ -29,17 +96,20 @@ rendirectToAddTaskPage() {
             <input
               type="submit"
               value="Add Task"
-              className="btn btn-secondary"
-              onClick={this.rendirectToAddTaskPage}/>
+              className={this.state.addTaskButton? "btn btn-secondary pointer-cursor" : "btn btn-secondary disabled pointer-cursor"}
+              onClick={this.toggleAddTaskDisplay}/>
 
-              <input
+            <input
               type="submit"
               value="Save"
-              className="btn btn-primary"
-              onClick={this.onSave}/>
-            </span>
-          </div>
-        <TaskList tasks={tasks}/>
+              className="btn btn-primary pointer-cursor"
+              onClick={this.saveTask}/>
+          </span>
+        </div>
+        {display}
+        <TaskList tasks={tasks} deleteTask={(id) => this.deleteTask(id)} />
+        {modal}
+ 
       </div>
     );
   }
@@ -47,14 +117,22 @@ rendirectToAddTaskPage() {
 
 TasksPage.propTypes = {
   tasks: React.PropTypes.array.isRequired,
+  task: PropTypes.object.isRequired,  
   actions: React.PropTypes.object.isRequired
+};
+
+// to avoid variable authentication error for context
+TasksPage.contextTypes = {
+  router: PropTypes.object
 };
 
 // react-router's mapStateToProps accepts two parameters
 // state is in redux store
 function mapStateToProps(state, ownProps) {
+  let task = {id: '', title: '', category: ''};  
   return {
-    tasks: state.tasks // pulls tasks in roodReducer as a state to here
+    tasks: state.tasks,
+    task: task // pulls tasks in roodReducer as a state to here
   };
 }
 

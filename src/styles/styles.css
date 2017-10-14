@@ -13,11 +13,20 @@ a {
 }
 
 nav {
-  padding-top: 20px;
+  height: 40px;
 }
 
 .form-group {
   margin: 0;
+}
+
+.btn-primary {
+  background-color: #66bb66;
+  border-color: #66bb66;
+}
+
+.btn.btn-primary[disabled] {
+  background-color: #999999;
 }
 
 /* styles */
@@ -65,4 +74,12 @@ nav {
 
 .left-padding {
   padding: 0 0 0 1rem;
+}
+
+.pointer-cursor {
+  cursor: pointer;  
+}
+
+.fa-trash-o:hover {
+  color: green;
 }

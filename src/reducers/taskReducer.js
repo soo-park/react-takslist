@@ -18,6 +18,9 @@ export default function taskReducer(state = initialState.tasks, action) {
       Object.assign({}, action.task)
     ];
 
+  case types.UPDATE_TASKLIST_SUCCESS:
+    return action.tasks;
+
   case types.DELETE_TASK_SUCCESS:
     return action.tasks;
 

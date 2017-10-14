@@ -6,18 +6,18 @@ import delay from './delay';
 const tasks = [
   {
     id: "board-001-item-0",
-    title: "This is the item number zero, order Id 3",
-    category: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    title: "This is the item number zero, order Id 0",
+    category: "Lorem ipsum "
   },
   {
     id: "board-001-item-1",
     title: "This is the item number one, order Id 1",
-    category: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    category: "Lorem ipsum dolor sit amet consequat."
   },
   {
-    id: "board-001-item-3",
+    id: "board-001-item-2",
     title: "This is the item number three, order Id 2",
-    category: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    category: "Lorem ipsum dolor sit amet, commodo consequat."
   }
 ];
 

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const TaskListRow = ({task}) => {
+const TaskListRow = ({task, deleteTask}) => {
   return (
     <div className="task-card">
       <div className="card-space" />
@@ -9,9 +9,9 @@ const TaskListRow = ({task}) => {
         <i className="fa fa-ellipsis-v"/>
         <i className="fa fa-ellipsis-v"/>
         <i className="fa fa-ellipsis-v"/>
-        <span className="left-padding">Task:</span>
+        <span className="left-padding">Task: </span>
         <Link to={'/task/' + task.id}>{task.title}</Link>
-        <i className="fa fa-trash-o pull-right"></i>
+        <i className="fa fa-trash-o pull-right pointer-cursor" onClick={deleteTask}></i>
       </div>
       <div className="card-space" />
       <div className="card-body">

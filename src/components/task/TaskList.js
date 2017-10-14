@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
 import TaskListRow from './TaskListRow';
 
-const TaskList = ({tasks}) => {
+const TaskList = ({tasks, deleteTask}) => {
   return (
     <div>
       {tasks.map(task => 
-        <TaskListRow key={task.id} task={task} />
+        <TaskListRow key={task.id} task={task} deleteTask={deleteTask}/>
       )}
     </div>
   );
