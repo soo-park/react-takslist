@@ -6,13 +6,15 @@ import TaskList from './TaskList';
 import { browserHistory } from 'react-router';
 import TextInput from '../common/TextInput';
 import Sort from './Sort.js';
+import $ from 'jquery';
+import uniqid from 'uniqid';
 
 class TasksPage extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       turnDisplayOn: false,
-      task: Object.assign({}, this.props.task),
+      task: {id: '', title: '', category: ''},
       errors: {},
       addTaskButton: true,
       saveButton: false,
@@ -50,8 +52,15 @@ class TasksPage extends Component {
 
   saveTask(event) {
     event.preventDefault();
-    this.props.actions.saveTask(this.state.task);
+    let title = document.getElementsByClassName('form-control')[0].value;
+    let category = document.getElementsByClassName('form-control')[1].value;
+    let id = uniqid();
+    let task = {id: id, category: category, title: title};
+
+    this.props.actions.saveTask(task);
     this.setState({
+      tasks: Object.freeze(this.props.tasks.concat(task)),
+      task:  {id: '', title: '', category: ''},
       turnDisplayOn: false,
       isModalOpen: true
     });
@@ -103,8 +112,6 @@ class TasksPage extends Component {
         </div>
         {display}
         <TaskList />
-        <Sort tasks={tasks}/>
-        {modal}
       </div>
     );
   }

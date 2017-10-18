@@ -8,7 +8,7 @@ const TaskList = ({tasks, deleteTask}) => {
   return (
     <div>
       {tasks.length ? tasks.map(task => 
-        <TaskListRow key={task.id} task={task} deleteTask={()=>deleteTask(task.id)}/>
+        <TaskListRow key={task.id} task={task} deleteTask={function() {deleteTask(task.id);}}/>
       ): "No tasks found"}
     </div>
   );

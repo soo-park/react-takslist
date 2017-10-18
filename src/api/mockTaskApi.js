@@ -6,16 +6,6 @@ const tasks = {
     id: "0",
     title: "This is the item number zero, order Id 0",
     category: "Lorem ipsum "
-  },
-  1: {
-    id: "1",
-    title: "This is the item number one, order Id 1",
-    category: "Lorem ipsum dolor sit amet consequat."
-  },
-  2: {
-    id: "2",
-    title: "This is the item number three, order Id 2",
-    category: "Lorem ipsum dolor sit amet, commodo consequat."
   }
 };
 
@@ -48,6 +38,7 @@ class TaskApi {
   static saveTasks(tasks) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
+        tasks = response.data.tasks;
         response.data.tasks = tasks;
         resolve(response);
       }, delay);

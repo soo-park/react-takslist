@@ -36,10 +36,17 @@ export function loadTasks() {
 }
 
 // not used here, but you can get Redux state using this thunk
-export function saveTasks(tasks) {
-  return function (dispatch, getState) {
-    return taskApi.saveTasks(tasks).then(response => {
-      dispatch(updateTaskSuccess(response.data.tasks));
+export function saveTask(task) {
+  return function(dispatch) {
+    return taskApi.getAllTasks().then(response => {
+      console.log(task);
+      let tasks = response.data.tasks;
+      let tasksArray = [];
+      for (let key in tasks) {
+        tasksArray.push(tasks[key]);
+      }
+      Object.freeze(tasksArray.concat(task));
+      dispatch(createTaskSuccess(tasksArray));
     }).catch(error => {
       throw(error);
     });
