@@ -14,6 +14,7 @@ a {
 
 nav {
   height: 40px;
+  background-color: #223355;
 }
 
 .form-group {
@@ -34,10 +35,6 @@ nav {
   font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
   color: #4d4d4d;
   margin: 0;
-}
-
-.header {
-  background-color: #223355;
 }
 
 .task-list {
@@ -82,4 +79,13 @@ nav {
 
 .fa-trash-o:hover {
   color: green;
+}
+
+li {
+  list-style-type: none;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
 }
