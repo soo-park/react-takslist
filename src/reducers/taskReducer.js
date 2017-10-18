@@ -6,11 +6,11 @@ export default function taskReducer(state = initialState.tasks, action) {
   case types.LOAD_TASKS_SUCCESS:
     return action.tasks;
   
-  case types.CREATE_TASK_SUCCESS:
-    return [
-      ...state,
-      Object.assign({}, action.task)
-    ];
+  // case types.CREATE_TASK_SUCCESS:
+  //   return [
+  //     ...state,
+  //     Object.assign({}, action.task)
+  //   ];
     
   case types.UPDATE_TASK_SUCCESS:
     return [
@@ -18,11 +18,14 @@ export default function taskReducer(state = initialState.tasks, action) {
       Object.assign({}, action.task)
     ];
 
-  case types.UPDATE_TASKLIST_SUCCESS:
-    return action.tasks;
-
   case types.DELETE_TASK_SUCCESS:
-    return action.tasks;
+    return [
+      ...state.filter(task => {
+        // task.id === action.task.id
+        console.log(task);
+      }),
+      Object.assign({}, action.task)
+    ];
 
   default:
     return state;

@@ -22,7 +22,6 @@ class TasksPage extends Component {
     this.toggleAddTaskDisplay = this.toggleAddTaskDisplay.bind(this);
     this.updateTaskState = this.updateTaskState.bind(this);
     this.saveTask = this.saveTask.bind(this);
-    this.deleteTask = this.deleteTask.bind(this);
   }
 
   taskRow(task, index) {
@@ -56,11 +55,6 @@ class TasksPage extends Component {
       turnDisplayOn: false,
       isModalOpen: true
     });
-  }
-
-  deleteTask(event, id) {
-    event.preventDefault();
-    this.props.actions.deleteTask("board-001-item-1");
   }
 
   render() {
@@ -108,10 +102,9 @@ class TasksPage extends Component {
           </span>
         </div>
         {display}
-        <TaskList tasks={tasks} deleteTask={(id) => this.deleteTask(id)} />
+        <TaskList />
         <Sort tasks={tasks}/>
         {modal}
- 
       </div>
     );
   }
