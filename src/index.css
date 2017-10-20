@@ -124,10 +124,19 @@ ul {
   top: 70vh;
   height: auto;
   width: 45vw;
-  background-color: rgba(248, 255, 251, 1);
   position: absolute;
-  border: 1px solid rgba(138, 209, 166, 1);
   border-radius: 0.5rem;
   padding: 1rem;
-  color: rgba(138, 209, 166, 1);
+}
+
+.green {
+  background-color: rgba(248, 255, 251, 1);
+  border: 1px solid rgba(138, 209, 166, 1);
+  color: rgba(138, 209, 166, 1);  
+}
+
+.red {
+  background-color: rgba(255, 248, 251, 1);
+  border: 1px solid rgba(209, 138, 166, 1);
+  color: rgba(209, 138, 166, 1);  
 }

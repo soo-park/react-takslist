@@ -3,6 +3,8 @@ import TaskList from './TaskList';
 import TextInput from './common/TextInput';
 import uniqid from 'uniqid';
 import axios from 'axios';
+import { DragSource } from 'react-dnd';
+
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +18,8 @@ class App extends Component {
       saveButton: false,
       isModalOpen: false,
       saveSuccessful: false,
-      saveMessage: ""
+      saveMessage: "",
+      modalColor: "green"
     };
     this.toggleAddTaskDisplay = this.toggleAddTaskDisplay.bind(this);
     this.processObjToArray = this.processObjToArray.bind(this);
@@ -27,26 +30,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.setState({tasks: this.processObjToArray(this.tasks).reverse()});
-    axios.get("http://cfassignment.herokuapp.com/spark/tasks")
-    .then(response => {
-      if(response.status === 200 && response.data.tasks) {
-        this.setState({
-          saveMessage: "Initial loading successful",
-          isModalOpen: true,
-        });
-      } else {
-        this.setState({
-          saveMessage: "[ERROR] Initial loading failed",
-        });
-      }
-    })
-    .catch(error => {
-      this.setState({
-        task: {id: '', title: '', category: ''},
-        saveMessage: "[ERROR] Initial loading failed",
-      });
-    })
+    this.getRemoteData();
   }
 
   toggleAddTaskDisplay(event) {
@@ -73,14 +57,57 @@ class App extends Component {
     });
   }
 
+  getRemoteData() {
+    axios.get("http://cfassignment.herokuapp.com/spark/tasks")
+    .then(response => {
+      if(response.status === 200 && response.data.tasks) {
+        if(response.data.tasks.length !== 0) {
+          this.setState({
+            saveMessage: "Initial loading successful",
+            tasks: response.data.tasks,
+            isModalOpen: true,
+            modalColor: "green"
+          });
+        }
+        else {
+          this.setState({
+            saveMessage: "There is no message saved in the server",
+            isModalOpen: true,
+            modalColor: "green"
+          });
+        }
+      } else if (response.status === 400) {
+        this.setState({
+          saveMessage: "[ERROR] Initial loading failed (status:400)",
+          isModalOpen: true,
+          modalColor: "red"
+        }); 
+      } else {
+        this.setState({
+          saveMessage: "[ERROR] Initial loading failed",
+          modalColor: "red"
+        });
+      }
+    })
+    .catch(error => {
+      this.setState({
+        task: {id: '', title: '', category: ''},
+        saveMessage: "[ERROR] Initial loading failed",
+        modalColor: "red"
+      });
+    })
+    this.setState({tasks: this.processObjToArray(this.tasks).reverse()});
+  }
+
   saveToRemote() {
-    axios.post("http://cfassignment.herokuapp.com/spark/tasks", this.state.tasks)
+    axios.post("http://cfassignment.herokuapp.com/spark/tasks", { tasks: this.state.tasks })
     .then(response => {
         if(response.status === 400) {
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: false,
             saveMessage: "[ERROR] Post failed with status code 400",
+            modalColor: "red",
             isModalOpen: true,
             addTaskButton: false
           });
@@ -88,17 +115,18 @@ class App extends Component {
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: true,
-            tasks: response.data.tasks, 
             saveMessage: "Post successful",
             saveButton: false,
             isModalOpen: true,
-            addTaskButton: false
+            addTaskButton: false,
+            modalColor: "green"
           });
         } else if(response.status === 200 && !response.data.tasks) {
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: false,
             saveMessage: "[ERROR] Post failsd with status code 200",
+            modalColor: "red",
             isModalOpen: true,
             addTaskButton: false
           });
@@ -107,6 +135,7 @@ class App extends Component {
             task: {id: '', title: '', category: ''},
             saveSuccessful: false,
             saveMessage: "[ERROR] Post failed",
+            modalColor: "red",
             isModalOpen: true,
             addTaskButton: false
           });
@@ -118,6 +147,7 @@ class App extends Component {
         task: {id: '', title: '', category: ''},
         saveSuccessful: false,
         saveMessage: "[ERROR] Post failed",
+        modalColor: "red",
         isModalOpen: true,
         addTaskButton: false
       });
@@ -180,10 +210,11 @@ class App extends Component {
     </div>)
     : null;
   
+    let modalClass = "floater pull-right " + this.state.modalColor;
     const modal = this.state.isModalOpen ?
     (
       <div>
-        <div className="floater pull-right">
+        <div className={modalClass}>
           {this.state.saveMessage}
           <span className="pull-right" onClick={this.closeModal}>X</span>
         </div>
@@ -202,13 +233,13 @@ class App extends Component {
                 type="submit"
                 value="Add Task"
                 className={this.state.addTaskButton? "btn btn-primary pointer-cursor" : "btn btn-secondary disabled pointer-cursor"}
-                onClick={this.state.addTaskButton? this.toggleAddTaskDisplay : () => this.setState({saveMessage: "Close this message to re-activate add task button"})}/>
+                onClick={this.state.addTaskButton? this.toggleAddTaskDisplay : () => this.setState({saveMessage: "Close this message to re-activate add task button", modalColor: "red"})}/>
 
               <input
                 type="submit"
                 value="Save"
                 className={this.state.saveButton? "btn btn-primary pointer-cursor pull-right" : "btn btn-secondary disabled pointer-cursor pull-right"}
-                onClick={this.state.saveButton? this.saveTask : () => this.setState({saveMessage: "No state change to save", isModalOpen: true})}/>
+                onClick={this.state.saveButton? this.saveTask : () => this.setState({saveMessage: "No state change to save", isModalOpen: true, modalColor: "red"})}/>
             </span>
           </div>
           {display}
