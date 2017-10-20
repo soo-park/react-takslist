@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskListRow from './TaskListRow';
+import TaskListRow from './TaskListRow.jsx';
 
 const TaskList = ({tasks, deleteTask}) => {
   return (

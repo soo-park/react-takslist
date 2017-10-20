@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TaskList from './TaskList';
+import TaskList from './TaskList.jsx';
 import TextInput from './common/TextInput';
 import uniqid from 'uniqid';
 import axios from 'axios';
@@ -29,15 +29,33 @@ class App extends Component {
     this.closeModal = this.closeModal.bind(this);
   }
 
+  // lifecycle for getting initial data
   componentWillMount() {
-    this.getRemoteData(); 
+    this.getRemoteData();
   }
 
+  // lifecycles for sortable list
+  componentDidMount() {
+    this.renderSortable();
+  }
+
+  // track changes for sortable
+  componentDidUpdate() {
+    this.renderSortable();
+  }
+
+  // render sorted list
+  renderSortable() {
+
+  }
+
+  // display methods
   toggleAddTaskDisplay(event) {
     event.preventDefault();
     this.setState({turnDisplayOn: !this.state.turnDisplayOn});
   }
 
+  // helper for processing object to array
   processObjToArray(obj) {
     let tasksArray = [];
     for (let key in obj) {
@@ -57,6 +75,7 @@ class App extends Component {
     });
   }
 
+  // API call helper
   getRemoteData() {
     axios.get("http://cfassignment.herokuapp.com/spark/tasks")
     .then(response => {
@@ -68,6 +87,7 @@ class App extends Component {
             isModalOpen: true,
             modalColor: "green"
           });
+          this.setState({tasks: this.state.tasks.reverse()});          
         }
         else {
           this.setState({
@@ -98,6 +118,7 @@ class App extends Component {
     })
   }
 
+  // API call helper
   saveToRemote() {
     axios.post("http://cfassignment.herokuapp.com/spark/tasks", { tasks: this.state.tasks })
     .then(response => {
@@ -112,7 +133,6 @@ class App extends Component {
             saveButton: true
           });
         } else if(response.status === 200 && response.data.tasks) {
-          console.log(response);          
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: true,
@@ -157,6 +177,7 @@ class App extends Component {
     })
   }
 
+  // save button rig
   saveTask(event) {
     event.preventDefault();
     this.saveToRemote()
@@ -189,6 +210,7 @@ class App extends Component {
     }
   }
 
+  // delete trash can rig
   deleteTask(id) {
     let tasks = this.state.tasks;
     for (let i = 0; i < tasks.length; i++) {
@@ -203,6 +225,7 @@ class App extends Component {
     this.saveToRemote()
   }
 
+  // display helper for message modal
   closeModal() {
     this.setState({
       isModalOpen: false,
@@ -211,6 +234,7 @@ class App extends Component {
     })
   }
 
+  // render function for rendering dom
   render() {
 
     const display = this.state.turnDisplayOn ?  
