@@ -10,7 +10,7 @@ const TaskListRow = ({task, deleteTask}) => {
         <i className="fa fa-ellipsis-v"/>
         <span className="left-padding">Task: </span>
         <span>{task.title}</span>
-        <i className="fa fa-trash-o pull-right pointer-cursor" onClick={(e) => deleteTask(e, task.id)}></i>
+        <i className="fa fa-trash-o pull-right pointer-cursor" onClick={() => deleteTask(task.id)}></i>
       </div>
       <div className="card-space" />
       <div className="card-body">

@@ -89,3 +89,29 @@ ul {
   padding: 0;
   list-style-type: none;
 }
+
+.error {
+  margin-left: 30vw;
+  margin-right: 30vw;
+  padding: 3rem;
+  margin-top: 10vh;
+  border: 3px solid #aaa;
+  align-self: center;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 2rem;
+  color: #aaa;
+}
+
+.floater {
+  right: 1rem;
+  bottom: 20vh;
+  height: 4rem;
+  width: 30rem;
+  background-color: rgba(0, 150, 100, 0.3);
+  position: absolute;
+  border: 1px solid rgba(0, 150, 100, 0.4);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: rgba(0, 100, 50, 0.5);
+}
