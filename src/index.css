@@ -1,6 +1,7 @@
 /* bootstrap overwrite */
 body {
-  background-color: #eeeeee;
+  background-color: rgba(245, 247, 249, 1);
+  font-family: Calibri, Helvetica, Candara, Optima, Arial, sans-serif;
 }
 
 .container-fluid {
@@ -14,21 +15,34 @@ a {
 
 nav {
   height: 40px;
-  background-color: #223355;
+  background-color: rgba(50, 64, 81, 1);
 }
 
 .form-group {
   margin: 0;
 }
 
-.btn-primary {
-  background-color: #66bb66;
-  border-color: #66bb66;
+.btn {
+  color: rgba(251, 255, 252, 1);
+  margin-left: 0.5rem;
+  background-color: rgb(124, 140, 158);
 }
 
-.btn.btn-primary[disabled] {
-  background-color: #999999;
+.btn-primary {
+  background-color: rgba(138, 209, 166, 1);
+  border-color: rgba(138, 209, 166, 1);
 }
+
+.btn:focus {
+  background-color: rgba(138, 209, 166, 1);
+  border-color: rgba(138, 209, 166, 1);
+}
+
+.btn:active {
+  background-color: rgba(138, 209, 166, 1);
+  border-color: rgba(138, 209, 166, 1);
+}
+
 
 /* styles */
 #app {
@@ -46,6 +60,7 @@ nav {
   padding: 3rem;
   font-size: 2rem;
   text-align: center;
+  color: rgba(59, 73, 112, 1);
 }
 
 .task-card {
@@ -53,7 +68,8 @@ nav {
   padding: 2rem 3rem 2rem 3rem;
   margin: 1rem;
   color: #aaa;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
+  border: 2px solid #eee;
   height: 15rem;
 }
 
@@ -70,7 +86,7 @@ nav {
 }
 
 .left-padding {
-  padding: 0 0 0 1rem;
+  padding: 0 0 0 1.5rem;
 }
 
 .pointer-cursor {
@@ -107,11 +123,11 @@ ul {
   right: 1rem;
   bottom: 20vh;
   height: 4rem;
-  width: 30rem;
-  background-color: rgba(0, 150, 100, 0.3);
+  width: 45vw;
+  background-color: rgba(248, 255, 251, 1);
   position: absolute;
-  border: 1px solid rgba(0, 150, 100, 0.4);
+  border: 1px solid rgba(138, 209, 166, 1);
   border-radius: 0.5rem;
   padding: 1rem;
-  color: rgba(0, 100, 50, 0.5);
+  color: rgba(138, 209, 166, 1);
 }

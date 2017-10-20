@@ -7,19 +7,14 @@ import axios from 'axios';
 const database = {
   0: {
     id: "0",
-    title: "This is 0",
-    category: "."
+    title: "Sample 0",
+    category: "0"
   },
   1: {
     id: "1",
-    title: "This is 1",
-    category: ".. "
-  },
-  2: {
-    id: "2",
-    title: "This is 2",
-    category: ".. "
-  },
+    title: "Sample 1",
+    category: "1"
+  }
 };
 
 class App extends Component {
@@ -47,8 +42,24 @@ class App extends Component {
   componentWillMount() {
     this.setState({tasks: this.processObjToArray(database).reverse()});
     axios.get("http://cfassignment.herokuapp.com/spark/tasks")
-    .then(resolve => console.log(resolve.data.tasks))
-    .catch(error => console.log(error))
+    .then(response => {
+      if(response.status === 200 && response.data.tasks) {
+        this.setState({
+          saveMessage: "Initial loading successful",
+          isModalOpen: true,
+        });
+      } else {
+        this.setState({
+          saveMessage: "[ERROR] Initial loading failed",
+        });
+      }
+    })
+    .catch(error => {
+      this.setState({
+        task: {id: '', title: '', category: ''},
+        saveMessage: "[ERROR] Initial loading failed",
+      });
+    })
   }
 
   toggleAddTaskDisplay(event) {
@@ -82,46 +93,64 @@ class App extends Component {
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: false,
-            saveMessage: "[ERROR] Post failed with status code 400" 
+            saveMessage: "[ERROR] Post failed with status code 400",
+            isModalOpen: true,
+            addTaskButton: false
           });
         } else if(response.status === 200 && response.data.tasks) {
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: true,
             tasks: response.data.tasks, 
-            saveMessage: "Post successful" 
+            saveMessage: "Post successful",
+            saveButton: false,
+            isModalOpen: true,
+            addTaskButton: false
           });
         } else if(response.status === 200 && !response.data.tasks) {
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: false,
-            saveMessage: "[ERROR] Post failsd with status code 200"
+            saveMessage: "[ERROR] Post failsd with status code 200",
+            isModalOpen: true,
+            addTaskButton: false
           });
         } else {
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: false,
-            saveMessage: "[ERROR] Post failed"
+            saveMessage: "[ERROR] Post failed",
+            isModalOpen: true,
+            addTaskButton: false
           });
         }
       } 
     )
-    .catch(error => console.log(error))
+    .catch(error => {
+      this.setState({
+        task: {id: '', title: '', category: ''},
+        saveSuccessful: false,
+        saveMessage: "[ERROR] Post failed",
+        isModalOpen: true,
+        addTaskButton: false
+      });
+    })
   }
 
   saveTask(event) {
     event.preventDefault();
-    let title = document.getElementsByClassName('form-control')[0].value;
-    let category = document.getElementsByClassName('form-control')[1].value;
-    let id = uniqid();
-    let task = {id: id, category: category, title: title};
+    if(document.getElementsByClassName('form-control')[0]) {
+      let title = document.getElementsByClassName('form-control')[0].value;
+      let category = document.getElementsByClassName('form-control')[1].value;
+      let id = uniqid();
+      let task = {id: id, category: category, title: title};
 
-    this.setState({
-      tasks: this.state.tasks.reverse().concat([task]).reverse(),
-      turnDisplayOn: false,
-      isModalOpen: true,
-      saveButton: false
-    });
+      this.setState({
+        tasks: this.state.tasks.reverse().concat([task]).reverse(),
+        turnDisplayOn: false,
+        isModalOpen: true
+      });
+    }
     this.saveToRemote()
   }
 
@@ -132,14 +161,18 @@ class App extends Component {
         tasks.splice(i, 1)
       }
     }
-    this.setState({tasks: tasks});
+    this.setState({
+      tasks: tasks,
+      saveButton: true
+    });
     this.saveToRemote()
   }
 
   closeModal() {
     this.setState({
       isModalOpen: false,
-      saveSuccessful: false
+      saveSuccessful: false,
+      addTaskButton: true
     })
   }
 
@@ -174,7 +207,7 @@ class App extends Component {
               <input
                 type="submit"
                 value="Add Task"
-                className={this.state.addTaskButton? "btn btn-secondary pointer-cursor" : "btn btn-secondary disabled pointer-cursor"}
+                className={this.state.addTaskButton? "btn btn-primary pointer-cursor" : "btn btn-secondary disabled pointer-cursor"}
                 onClick={this.toggleAddTaskDisplay}/>
 
               <input
