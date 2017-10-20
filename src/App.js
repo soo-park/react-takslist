@@ -3,7 +3,7 @@ import TaskList from './TaskList';
 import TextInput from './common/TextInput';
 import uniqid from 'uniqid';
 import axios from 'axios';
-import { DragSource } from 'react-dnd';
+import $ from 'jquery';
 
 
 class App extends Component {
@@ -30,7 +30,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.getRemoteData();
+    this.getRemoteData(); 
   }
 
   toggleAddTaskDisplay(event) {
@@ -64,7 +64,7 @@ class App extends Component {
         if(response.data.tasks.length !== 0) {
           this.setState({
             saveMessage: "Initial loading successful",
-            tasks: response.data.tasks,
+            tasks: this.processObjToArray(response.data.tasks),
             isModalOpen: true,
             modalColor: "green"
           });
@@ -96,7 +96,6 @@ class App extends Component {
         modalColor: "red"
       });
     })
-    this.setState({tasks: this.processObjToArray(this.tasks).reverse()});
   }
 
   saveToRemote() {
@@ -109,9 +108,11 @@ class App extends Component {
             saveMessage: "[ERROR] Post failed with status code 400",
             modalColor: "red",
             isModalOpen: true,
-            addTaskButton: false
+            addTaskButton: false,
+            saveButton: true
           });
         } else if(response.status === 200 && response.data.tasks) {
+          console.log(response);          
           this.setState({
             task: {id: '', title: '', category: ''},
             saveSuccessful: true,
@@ -119,7 +120,8 @@ class App extends Component {
             saveButton: false,
             isModalOpen: true,
             addTaskButton: false,
-            modalColor: "green"
+            modalColor: "green",
+            turnDisplayOn: false
           });
         } else if(response.status === 200 && !response.data.tasks) {
           this.setState({
@@ -128,7 +130,8 @@ class App extends Component {
             saveMessage: "[ERROR] Post failsd with status code 200",
             modalColor: "red",
             isModalOpen: true,
-            addTaskButton: false
+            addTaskButton: false,
+            saveButton: true
           });
         } else {
           this.setState({
@@ -137,14 +140,14 @@ class App extends Component {
             saveMessage: "[ERROR] Post failed",
             modalColor: "red",
             isModalOpen: true,
-            addTaskButton: false
+            addTaskButton: false,
+            saveButton: true
           });
         }
       } 
     )
     .catch(error => {
       this.setState({
-        task: {id: '', title: '', category: ''},
         saveSuccessful: false,
         saveMessage: "[ERROR] Post failed",
         modalColor: "red",
@@ -156,6 +159,7 @@ class App extends Component {
 
   saveTask(event) {
     event.preventDefault();
+    this.saveToRemote()
     if(document.getElementsByClassName('form-control')[0]) {
       let title = document.getElementsByClassName('form-control')[0].value;
       let category = document.getElementsByClassName('form-control')[1].value;
@@ -166,16 +170,23 @@ class App extends Component {
           tasks: [task],
           turnDisplayOn: false,
           isModalOpen: true
-        });        
-      } else {
-        this.setState({
-          tasks: this.state.tasks.reverse().concat([task]).reverse(),
-          turnDisplayOn: false,
-          isModalOpen: true
         });
+      } else {
+        let tasks = this.state.tasks.reverse().concat([task]).reverse();
+        this.saveToRemote();
+        if (this.state.tasks.length === tasks.length) {
+          this.setState({
+            tasks: tasks
+          });
+        } else {
+          this.setState({
+            tasks: tasks,
+            isModalOpen: true,
+            saveMessage: "System and state mismatch. Save again."
+          })
+        }
       }
     }
-    this.saveToRemote()
   }
 
   deleteTask(id) {

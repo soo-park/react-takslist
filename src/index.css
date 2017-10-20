@@ -10,7 +10,7 @@ body {
 }
 
 a {
-  color:#aaa;
+  color:rgb(124, 140, 158);
 }
 
 nav {
@@ -28,21 +28,10 @@ nav {
   background-color: rgb(124, 140, 158);
 }
 
-.btn-primary {
+.btn-primary, .btn:focus, .btn:active {
   background-color: rgba(138, 209, 166, 1);
   border-color: rgba(138, 209, 166, 1);
 }
-
-.btn:focus {
-  background-color: rgba(138, 209, 166, 1);
-  border-color: rgba(138, 209, 166, 1);
-}
-
-.btn:active {
-  background-color: rgba(138, 209, 166, 1);
-  border-color: rgba(138, 209, 166, 1);
-}
-
 
 /* styles */
 #app {
@@ -57,20 +46,32 @@ nav {
 
 .tasklist-top {
   margin: auto;
+  margin-bottom: 3rem;
   padding: 3rem;
   font-size: 2rem;
   text-align: center;
   color: rgba(59, 73, 112, 1);
+  font-weight: bold;
 }
 
 .task-card {
   background-color: white;
-  padding: 2rem 3rem 2rem 3rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
   margin: 1rem;
-  color: #aaa;
+  color:rgb(124, 140, 158);
   border-radius: 1rem;
   border: 2px solid #eee;
   height: 15rem;
+  font-size: 1rem
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  background: white;
+}
+
+.task-title {
+  font-weight: bold;
+  letter-spacing: 1px;  
 }
 
 .card-space {
@@ -86,11 +87,16 @@ nav {
 }
 
 .left-padding {
-  padding: 0 0 0 1.5rem;
+  padding: 0 0 0 1rem;
 }
 
 .pointer-cursor {
   cursor: pointer;  
+}
+
+.fa-trash-o {
+  font-size: 1.5rem;
+  margin-right: 1rem;
 }
 
 .fa-trash-o:hover {
