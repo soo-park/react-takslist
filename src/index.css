@@ -121,8 +121,8 @@ ul {
 
 .floater {
   right: 1rem;
-  bottom: 20vh;
-  height: 4rem;
+  top: 70vh;
+  height: auto;
   width: 45vw;
   background-color: rgba(248, 255, 251, 1);
   position: absolute;

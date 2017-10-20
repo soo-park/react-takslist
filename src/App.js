@@ -4,19 +4,6 @@ import TextInput from './common/TextInput';
 import uniqid from 'uniqid';
 import axios from 'axios';
 
-const database = {
-  0: {
-    id: "0",
-    title: "Sample 0",
-    category: "0"
-  },
-  1: {
-    id: "1",
-    title: "Sample 1",
-    category: "1"
-  }
-};
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +27,7 @@ class App extends Component {
   }
 
   componentWillMount() {
-    this.setState({tasks: this.processObjToArray(database).reverse()});
+    this.setState({tasks: this.processObjToArray(this.tasks).reverse()});
     axios.get("http://cfassignment.herokuapp.com/spark/tasks")
     .then(response => {
       if(response.status === 200 && response.data.tasks) {
@@ -144,12 +131,19 @@ class App extends Component {
       let category = document.getElementsByClassName('form-control')[1].value;
       let id = uniqid();
       let task = {id: id, category: category, title: title};
-
-      this.setState({
-        tasks: this.state.tasks.reverse().concat([task]).reverse(),
-        turnDisplayOn: false,
-        isModalOpen: true
-      });
+      if (this.state.tasks.length !== 0 && this.state.tasks[0].id === "-1") {
+        this.setState({
+          tasks: [task],
+          turnDisplayOn: false,
+          isModalOpen: true
+        });        
+      } else {
+        this.setState({
+          tasks: this.state.tasks.reverse().concat([task]).reverse(),
+          turnDisplayOn: false,
+          isModalOpen: true
+        });
+      }
     }
     this.saveToRemote()
   }
@@ -208,13 +202,13 @@ class App extends Component {
                 type="submit"
                 value="Add Task"
                 className={this.state.addTaskButton? "btn btn-primary pointer-cursor" : "btn btn-secondary disabled pointer-cursor"}
-                onClick={this.toggleAddTaskDisplay}/>
+                onClick={this.state.addTaskButton? this.toggleAddTaskDisplay : () => this.setState({saveMessage: "Close this message to re-activate add task button"})}/>
 
               <input
                 type="submit"
                 value="Save"
                 className={this.state.saveButton? "btn btn-primary pointer-cursor pull-right" : "btn btn-secondary disabled pointer-cursor pull-right"}
-                onClick={this.saveTask}/>
+                onClick={this.state.saveButton? this.saveTask : () => this.setState({saveMessage: "No state change to save", isModalOpen: true})}/>
             </span>
           </div>
           {display}
