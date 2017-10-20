@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import TaskList from './TaskList.jsx';
 import TextInput from './common/TextInput';
 import uniqid from 'uniqid';
@@ -19,7 +20,9 @@ class App extends Component {
       isModalOpen: false,
       saveSuccessful: false,
       saveMessage: "",
-      modalColor: "green"
+      modalColor: "green",
+      y: 0,
+      sorted: false
     };
     this.toggleAddTaskDisplay = this.toggleAddTaskDisplay.bind(this);
     this.processObjToArray = this.processObjToArray.bind(this);
@@ -27,6 +30,7 @@ class App extends Component {
     this.saveTask = this.saveTask.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.mouseUpHandle = this.mouseUpHandle.bind(this);
   }
 
   // lifecycle for getting initial data
@@ -34,19 +38,33 @@ class App extends Component {
     this.getRemoteData();
   }
 
-  // lifecycles for sortable list
-  componentDidMount() {
-    this.renderSortable();
-  }
+  mouseUpHandle(e) {
+    let listItems = $('.button-container');
+    let currentTasks = this.state.tasks.slice();
+    let currentOrder = [];
+    let stateOrder = [];
+    let itemsById = {};
 
-  // track changes for sortable
-  componentDidUpdate() {
-    this.renderSortable();
-  }
+    // get the items, get the id
+    for (let i = 0; i < listItems.length; i++) {
+      currentOrder.push(($('.button-container')[i].id.slice(5, )));
+    }
 
-  // render sorted list
-  renderSortable() {
+    for (let i = 0; i < this.state.tasks.length; i++) {
+      let key = this.state.tasks[i].id;
+      stateOrder.push(key);
+      itemsById[key] = this.state.tasks[i];
+    }
 
+    if (currentOrder.join() !== stateOrder.join()) {
+      var tasksToUpdate = [];
+      for (let i = 0; i < currentOrder.length; i++) {
+        tasksToUpdate.push(itemsById[currentOrder[i]])        
+      }
+      this.setState({tasks: tasksToUpdate});
+      this.saveToRemote();
+      this.setState({addTaskButton: true});
+    }
   }
 
   // display methods
@@ -172,7 +190,8 @@ class App extends Component {
         saveMessage: "[ERROR] Post failed",
         modalColor: "red",
         isModalOpen: true,
-        addTaskButton: false
+        addTaskButton: false,
+        saveButton: true
       });
     })
   }
@@ -279,7 +298,7 @@ class App extends Component {
           </div>
           {display}
           {modal}
-          <TaskList tasks={this.state.tasks} deleteTask={this.deleteTask}/>
+          <TaskList tasks={this.state.tasks} deleteTask={this.deleteTask} onMouseDown={this.mouseDownHandle} onMouseUp={this.mouseUpHandle}/>
         </div>
       </div>
     );

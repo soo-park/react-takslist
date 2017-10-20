@@ -9,9 +9,15 @@ class TaskListRow extends Component {
   }
 
   render() {
-    let {task, deleteTask} = this.props;
+    let {task, deleteTask, onMouseDown, onMouseUp} = this.props;
     return (
-      <li className="task-card ui-state-default button-container" ref="buttonContainer" id={"item_" + task.id}>
+      <li 
+        className="task-card ui-state-default button-container" 
+        ref="buttonContainer" 
+        id={"item_" + task.id}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+      >
         <div className="card-space" />
         <div>
           <i className="fa fa-ellipsis-v"/>
